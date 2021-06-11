@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<style>
+    .relative{
+      border: solid green;
+        height: 600px;
+        width: 600px;
+        margin:100px auto ;
+        display: flex;
+
+    }
+    .child{
+        width: 150px;
+        height: 100px;
+        position: absolute;
+        font-size: 95px;
+        text-align: center;
+        line-height: 100px;
+    }
+    .red{
+        border:solid red 1px;
+    }
+    .blue{
+        border:solid blue 1px;
+    }
+</style>
+<div class="relative"> 
+    <div class="child  blue">0</div>
+    <div class="child  red "> 1</div> 
+    <div class="child  blue"> 2</div> 
+    <div class="child  red ">3 </div>  
+ </div>  
+ 
+ 
+        <script>
+            const steps = 360;
+            const speed =55;
+            const centerX=120;
+            const centerY=120;
+
+            const r =200;
+             const x=[];
+             const y=[]; 
+             const yr=[]; 
+             const xr=[]; 
+           
+                // x[0]=0;
+                // y[0]=-r;
+
+                // x[1]=r;
+                // y[1]=0;
+
+                // x[2]=0;
+                // y[2]=r;
+
+                // x[3]=-r;
+                // y[3]=0;
+           
+                x[0]=270;
+                x[1]=180;
+                x[2]=90;
+                x[3]=0; 
+        
+
+
+
+
+                const it = document.querySelectorAll('.child');
+ 
+
+
+function rotate(c){
+   let counter =c;
+                const u =  setInterval(() => {
+               it.forEach((e,i )=> {
+                const    xx=Math.cos((counter+x[i])/(steps)*Math.PI*2)*r+r/2; 
+               const    yy=Math.sin((counter+x[i])/(steps)*Math.PI*2)*r+r/2;
+                e.style=`transform:translateX(${xx+centerX}px ) translateY(${yy+centerY}px ) `; 
+                });
+                counter++;
+                    if(counter>steps/4+c){
+                        clearInterval(u);
+                    }
+                }, 10/speed);
+
+
+}
+     
+
+let uu=90
+rotate(uu);
+
+setInterval(() => { 
+    uu=uu+90;
+    rotate(uu);
+    if(uu>270){
+        uu=0;
+
+    }
+    console.log(uu);
+
+}, 800);
+
+
+        </script>
+
+</body>
+</html>
