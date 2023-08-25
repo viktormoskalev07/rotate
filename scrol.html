@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      .scroll {
+        height: 300px;
+        background-color: rgba(208, 200, 84, 0.46);
+      }
+      .scroll:nth-child(2n) {
+        background-color: rgba(110, 104, 150, 0.12);
+      }
+      .target {
+        height: 400px;
+        background-color: green;
+        width: 100%;
+        overflow: auto;
+      }
+      .child {
+        height: 800px;
+        width: 3000px;
+      }
+    </style>
+
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <div class="target">
+      <div class="child"></div>
+    </div>
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <div class="scroll">123</div>
+    <script>
+      function getScrollPercentage(element) {
+        var scrollHeight = element.scrollHeight - element.clientHeight;
+        var scrollTop = element.scrollTop;
+        return (scrollTop / scrollHeight) * 100;
+      }
+      const slider = document.querySelector(".target");
+      function disableScroll() {
+        document.body.style.overflow = "hidden";
+      }
+
+      function enableScroll() {
+        document.body.style.overflow = "";
+      }
+      function disableScrollDiv() {
+        slider.style.overflow = "hidden";
+      }
+
+      function enableScrollDiv() {
+        slider.style.overflow = "";
+      }
+
+        let windowsPrev =0;
+        let windowsMove =0;
+        let enabledMove ="any";
+        let windowComeFrom = "top";
+
+
+      window.addEventListener("scroll", function (e) {
+        const sliderPosition = slider.getBoundingClientRect();
+
+        windowsMove =   window.scrollY -windowsPrev;
+        windowsPrev=window.scrollY;
+        const targetFarFromCenter = sliderPosition.top - window.innerHeight / 2
+        console.log({targetFarFromCenter , windowComeFrom} )
+        if(windowsMove<0){
+          windowComeFrom="bottom"
+        } else{
+          windowComeFrom="top"
+        }
+        if (
+         (  targetFarFromCenter < 0 && windowComeFrom==="top")||
+          (targetFarFromCenter > -200 && windowComeFrom==="bottom")
+        ) {
+
+          if(windowComeFrom===enabledMove){
+            disableScroll();
+            enableScrollDiv();
+          }
+        }
+      });
+
+      slider.addEventListener("scroll", function (e) {
+        const slider = document.querySelector(".target");
+       const scrollDiv = getScrollPercentage(slider)
+        const divScroll = slider.getBoundingClientRect();
+        console.log(scrollDiv)
+        if(scrollDiv>40&&scrollDiv<60){
+          windowComeFrom="unset"
+        }
+        if (scrollDiv > 95&&windowComeFrom!=="bottom") {
+          enableScroll();
+          disableScrollDiv();
+          document.body.focus()
+          enabledMove="bottom"
+        }
+        if (scrollDiv <5 &&windowComeFrom!=="top") {
+          enableScroll();
+          disableScrollDiv();
+          document.body.focus()
+          enabledMove="top"
+        }
+      });
+    </script>
+  </body>
+</html>
